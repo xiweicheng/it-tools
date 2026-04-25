@@ -280,6 +280,24 @@ export const useToolsStore = defineStore('tools', {
         category: 'utility',
         description: '生成 Lorem Ipsum 占位文本，常用于排版和设计中的示例内容。'
       },
+      {
+        id: 'api-doc-generator',
+        name: 'API 文档生成器',
+        category: 'development',
+        description: '根据 API 端点信息自动生成标准格式的 API 文档，支持 Swagger/OpenAPI 格式。'
+      },
+      {
+        id: 'dns-lookup',
+        name: 'DNS 查找工具',
+        category: 'network',
+        description: '查询域名的各种 DNS 记录，包括 A、AAAA、CNAME、MX、TXT 等记录类型。'
+      },
+      {
+        id: 'progress-bar-generator',
+        name: '进度条生成工具',
+        category: 'development',
+        description: '生成各种风格的进度条代码，支持 CSS、Bootstrap、Tailwind CSS 等多种实现方式。'
+      },
       // Conversion tools
       {
         id: 'base64-encoder',

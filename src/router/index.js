@@ -62,6 +62,9 @@ import EnvFormatter from '../tools/development/EnvFormatter.vue'
 import SequenceCalculator from '../tools/math/SequenceCalculator.vue'
 import ChmodCalculator from '../tools/development/ChmodCalculator.vue'
 import LoremIpsumGenerator from '../tools/utility/LoremIpsumGenerator.vue'
+import APIDocGenerator from '../tools/development/APIDocGenerator.vue'
+import DNSLookup from '../tools/network/DNSLookup.vue'
+import ProgressBarGenerator from '../tools/development/ProgressBarGenerator.vue'
 
 const routes = [
   {
@@ -378,6 +381,21 @@ const routes = [
     path: '/tool/lorem-ipsum-generator',
     name: 'LoremIpsumGenerator',
     component: LoremIpsumGenerator
+  },
+  {
+    path: '/tool/api-doc-generator',
+    name: 'APIDocGenerator',
+    component: APIDocGenerator
+  },
+  {
+    path: '/tool/dns-lookup',
+    name: 'DNSLookup',
+    component: DNSLookup
+  },
+  {
+    path: '/tool/progress-bar-generator',
+    name: 'ProgressBarGenerator',
+    component: ProgressBarGenerator
   }
 ]
 
