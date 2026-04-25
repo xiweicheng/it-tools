@@ -60,6 +60,8 @@ import CommentGenerator from '../tools/development/CommentGenerator.vue'
 import ApiParameterBuilder from '../tools/development/ApiParameterBuilder.vue'
 import EnvFormatter from '../tools/development/EnvFormatter.vue'
 import SequenceCalculator from '../tools/math/SequenceCalculator.vue'
+import ChmodCalculator from '../tools/development/ChmodCalculator.vue'
+import LoremIpsumGenerator from '../tools/utility/LoremIpsumGenerator.vue'
 
 const routes = [
   {
@@ -366,6 +368,16 @@ const routes = [
     path: '/tool/sequence-calculator',
     name: 'SequenceCalculator',
     component: SequenceCalculator
+  },
+  {
+    path: '/tool/chmod-calculator',
+    name: 'ChmodCalculator',
+    component: ChmodCalculator
+  },
+  {
+    path: '/tool/lorem-ipsum-generator',
+    name: 'LoremIpsumGenerator',
+    component: LoremIpsumGenerator
   }
 ]
 

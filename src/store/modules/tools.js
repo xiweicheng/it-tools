@@ -268,6 +268,18 @@ export const useToolsStore = defineStore('tools', {
         category: 'math',
         description: '计算各种数列的项值和总和，支持等差数列、等比数列和斐波那契数列等。'
       },
+      {
+        id: 'chmod-calculator',
+        name: 'Chmod 计算器',
+        category: 'development',
+        description: '使用此在线 chmod 计算器计算您的 chmod 权限和命令。'
+      },
+      {
+        id: 'lorem-ipsum-generator',
+        name: 'Lorem Ipsum 生成器',
+        category: 'utility',
+        description: '生成 Lorem Ipsum 占位文本，常用于排版和设计中的示例内容。'
+      },
       // Conversion tools
       {
         id: 'base64-encoder',
@@ -354,25 +366,6 @@ export const useToolsStore = defineStore('tools', {
         name: '正则表达式测试器',
         category: 'development',
         description: '在线测试正则表达式，实时匹配高亮显示。'
-      },
-      {
-        id: 'chmod-calculator',
-        name: 'Chmod 计算器',
-        category: 'development',
-        description: '使用此在线 chmod 计算器计算您的 chmod 权限和命令。'
-      },
-      // Utility tools
-      {
-        id: 'qr-code-generator',
-        name: '二维码生成器',
-        category: 'utility',
-        description: '为 URL（或纯文本）生成和下载二维码，并自定义背景和前景颜色。'
-      },
-      {
-        id: 'lorem-ipsum-generator',
-        name: 'Lorem Ipsum 生成器',
-        category: 'utility',
-        description: 'Lorem Ipsum 是一种占位文本，通常用于在不依赖有意义内容的情况下展示文档或字体的视觉形式。'
       }
     ],
     categories: [
