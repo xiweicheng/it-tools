@@ -208,6 +208,66 @@ export const useToolsStore = defineStore('tools', {
         category: 'measurement',
         description: '在不同数据速率单位之间进行换算，如 bps、Kbps、Mbps、Gbps 等。'
       },
+      {
+        id: 'unit-converter',
+        name: '单位换算工具',
+        category: 'measurement',
+        description: '支持长度、重量、体积、温度等多种单位之间的相互转换。'
+      },
+      {
+        id: 'geometry-calculator',
+        name: '几何面积体积计算',
+        category: 'math',
+        description: '计算各种几何图形的面积、体积和周长，支持圆形、矩形、三角形等。'
+      },
+      {
+        id: 'linux-cheatsheet',
+        name: 'Linux 命令速查',
+        category: 'development',
+        description: '常用 Linux 命令速查，包含系统管理、文件操作、网络配置等命令。'
+      },
+      {
+        id: 'cookie-parser',
+        name: 'Cookie 解析格式化',
+        category: 'web',
+        description: '解析、编辑和生成 Cookie 字符串，支持可视化编辑界面。'
+      },
+      {
+        id: 'http-status-codes',
+        name: 'HTTP 状态码查询',
+        category: 'web',
+        description: '查询 HTTP 状态码的含义和分类，支持按类别和关键词搜索。'
+      },
+      {
+        id: 'meta-generator',
+        name: 'Meta 标签生成器',
+        category: 'web',
+        description: '生成 HTML Meta 标签，支持 SEO、社交媒体和响应式设计标签。'
+      },
+      {
+        id: 'comment-generator',
+        name: '注释生成工具',
+        category: 'development',
+        description: '为代码生成各种风格的注释，支持多种编程语言和注释格式。'
+      },
+      {
+        id: 'api-parameter-builder',
+        name: '接口参数拼装工具',
+        category: 'development',
+        description: '快速拼装和格式化 API 请求参数，支持 URL 查询字符串和 JSON 格式。'
+      },
+      {
+        id: 'env-formatter',
+        name: '环境变量格式化工具',
+        category: 'development',
+        description: '格式化和验证环境变量，支持多种格式的转换和导出。'
+      },
+      {
+        id: 'sequence-calculator',
+        name: '数列计算工具',
+        category: 'math',
+        description: '计算各种数列的项值和总和，支持等差数列、等比数列和斐波那契数列等。'
+      },
       // Conversion tools
       {
         id: 'base64-encoder',

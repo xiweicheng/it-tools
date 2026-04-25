@@ -50,6 +50,16 @@ import ImageBase64 from '../tools/image/ImageBase64.vue'
 import PixelConverter from '../tools/measurement/PixelConverter.vue'
 import AngleConverter from '../tools/measurement/AngleConverter.vue'
 import DataRateConverter from '../tools/measurement/DataRateConverter.vue'
+import UnitConverter from '../tools/measurement/UnitConverter.vue'
+import GeometryCalculator from '../tools/math/GeometryCalculator.vue'
+import LinuxCheatsheet from '../tools/development/LinuxCheatsheet.vue'
+import CookieParser from '../tools/web/CookieParser.vue'
+import HTTPStatusCodes from '../tools/web/HTTPStatusCodes.vue'
+import MetaGenerator from '../tools/web/MetaGenerator.vue'
+import CommentGenerator from '../tools/development/CommentGenerator.vue'
+import ApiParameterBuilder from '../tools/development/ApiParameterBuilder.vue'
+import EnvFormatter from '../tools/development/EnvFormatter.vue'
+import SequenceCalculator from '../tools/math/SequenceCalculator.vue'
 
 const routes = [
   {
@@ -306,6 +316,56 @@ const routes = [
     path: '/tool/data-rate-converter',
     name: 'DataRateConverter',
     component: DataRateConverter
+  },
+  {
+    path: '/tool/unit-converter',
+    name: 'UnitConverter',
+    component: UnitConverter
+  },
+  {
+    path: '/tool/geometry-calculator',
+    name: 'GeometryCalculator',
+    component: GeometryCalculator
+  },
+  {
+    path: '/tool/linux-cheatsheet',
+    name: 'LinuxCheatsheet',
+    component: LinuxCheatsheet
+  },
+  {
+    path: '/tool/cookie-parser',
+    name: 'CookieParser',
+    component: CookieParser
+  },
+  {
+    path: '/tool/http-status-codes',
+    name: 'HTTPStatusCodes',
+    component: HTTPStatusCodes
+  },
+  {
+    path: '/tool/meta-generator',
+    name: 'MetaGenerator',
+    component: MetaGenerator
+  },
+  {
+    path: '/tool/comment-generator',
+    name: 'CommentGenerator',
+    component: CommentGenerator
+  },
+  {
+    path: '/tool/api-parameter-builder',
+    name: 'ApiParameterBuilder',
+    component: ApiParameterBuilder
+  },
+  {
+    path: '/tool/env-formatter',
+    name: 'EnvFormatter',
+    component: EnvFormatter
+  },
+  {
+    path: '/tool/sequence-calculator',
+    name: 'SequenceCalculator',
+    component: SequenceCalculator
   }
 ]
 
