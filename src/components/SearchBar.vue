@@ -53,9 +53,13 @@ export default {
     
     // 处理 Cmd+K 快捷键
     const handleKeydown = (event) => {
+      // Cmd+K (Mac) 或 Ctrl+K (Windows/Linux)
       if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
         event.preventDefault()
-        document.querySelector('input[placeholder="搜索工具..."]').focus()
+        const input = document.querySelector('input[placeholder*="搜索工具"]')
+        if (input) {
+          input.focus()
+        }
       }
     }
     

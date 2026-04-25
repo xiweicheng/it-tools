@@ -12,7 +12,7 @@ git add .
 git commit -m "deploy"
 
 # Push to GitHub Pages
-git push -f https://github.com/yourusername/it-tools.git master:gh-pages
+git push -f git@github.com:xiweicheng/it-tools.git master:gh-pages
 
 # Navigate back to the project root
 cd ..
