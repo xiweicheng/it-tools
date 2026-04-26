@@ -106,7 +106,15 @@ export const useToolsStore = defineStore('tools', {
       { id: 'box-shadow-generator', name: '盒阴影生成器', category: 'development', description: '可视化生成 CSS box-shadow 代码，支持多种阴影效果。' },
       { id: 'cron-interpreter', name: 'Cron 表达式解释器', category: 'development', description: '将 Cron 表达式转为人类可读描述，并验证表达式是否正确。' },
       { id: 'percentage-calculator', name: '百分比计算器', category: 'math', description: '计算百分比、增长率、折扣等实用的百分比计算。' },
-      { id: 'bmi-calculator', name: 'BMI 计算器', category: 'math', description: '计算身体质量指数 (BMI)，评估体重是否健康。' }
+      { id: 'bmi-calculator', name: 'BMI 计算器', category: 'math', description: '计算身体质量指数 (BMI)，评估体重是否健康。' },
+      { id: 'timezone-converter', name: '时区转换器', category: 'utility', description: '在全球不同时区之间转换时间，支持多个城市同时查看。' },
+      { id: 'json-to-csv-converter', name: 'JSON 转 CSV 转换器', category: 'conversion', description: '将 JSON 数据转换为 CSV 格式，方便在 Excel 等软件中打开。' },
+      { id: 'hash-time-lock', name: '哈希时间锁', category: 'security', description: '使用哈希算法锁定文本内容，在未来某个时间自动揭示。' },
+      { id: 'og-preview', name: 'Open Graph 预览', category: 'web', description: '预览网页链接在社交媒体分享时的显示效果。' },
+      { id: 'html-table-generator', name: 'HTML 表格生成器', category: 'development', description: '根据 JSON 数据或手动输入生成 HTML 表格代码，支持自定义样式和列配置。' },
+      { id: 'watering-calculator', name: '浇水计算器', category: 'math', description: '计算给定面积需要多少浇水量，帮助合理规划园艺浇水。' },
+      { id: 'fraction-calculator', name: '分数计算器', category: 'math', description: '进行分数的加、减、乘、除运算，简化结果并显示计算步骤。' },
+      { id: 'word-count-tool', name: '字数统计工具', category: 'text', description: '详细统计中英文文本的字数、单词数、句子数、段落数等信息。' }
     ],
     categories: [
       { id: 'security', name: '安全' },

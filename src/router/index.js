@@ -106,6 +106,14 @@ import BoxShadowGenerator from '../tools/development/BoxShadowGenerator.vue'
 import CronInterpreter from '../tools/development/CronInterpreter.vue'
 import PercentageCalculator from '../tools/math/PercentageCalculator.vue'
 import BMICalculator from '../tools/math/BMICalculator.vue'
+import TimezoneConverter from '../tools/utility/TimezoneConverter.vue'
+import JSONToCSVConverter from '../tools/conversion/JSONToCSVConverter.vue'
+import HashTimeLock from '../tools/security/HashTimeLock.vue'
+import OGPreview from '../tools/web/OGPreview.vue'
+import HTMLTableGenerator from '../tools/development/HTMLTableGenerator.vue'
+import WateringCalculator from '../tools/math/WateringCalculator.vue'
+import FractionCalculator from '../tools/math/FractionCalculator.vue'
+import WordCountTool from '../tools/text/WordCountTool.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -213,7 +221,15 @@ const routes = [
   { path: '/tool/box-shadow-generator', name: 'BoxShadowGenerator', component: BoxShadowGenerator },
   { path: '/tool/cron-interpreter', name: 'CronInterpreter', component: CronInterpreter },
   { path: '/tool/percentage-calculator', name: 'PercentageCalculator', component: PercentageCalculator },
-  { path: '/tool/bmi-calculator', name: 'BMICalculator', component: BMICalculator }
+  { path: '/tool/bmi-calculator', name: 'BMICalculator', component: BMICalculator },
+  { path: '/tool/timezone-converter', name: 'TimezoneConverter', component: TimezoneConverter },
+  { path: '/tool/json-to-csv-converter', name: 'JSONToCSVConverter', component: JSONToCSVConverter },
+  { path: '/tool/hash-time-lock', name: 'HashTimeLock', component: HashTimeLock },
+  { path: '/tool/og-preview', name: 'OGPreview', component: OGPreview },
+  { path: '/tool/html-table-generator', name: 'HTMLTableGenerator', component: HTMLTableGenerator },
+  { path: '/tool/watering-calculator', name: 'WateringCalculator', component: WateringCalculator },
+  { path: '/tool/fraction-calculator', name: 'FractionCalculator', component: FractionCalculator },
+  { path: '/tool/word-count-tool', name: 'WordCountTool', component: WordCountTool }
 ]
 
 const router = createRouter({
