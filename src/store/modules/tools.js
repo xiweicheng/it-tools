@@ -98,7 +98,11 @@ export const useToolsStore = defineStore('tools', {
       { id: 'ascii-art-generator', name: 'ASCII 艺术生成器', category: 'utility', description: '将文字转换为 ASCII 艺术字符，支持多种字体风格。' },
       { id: 'system-info-viewer', name: '系统信息查看器', category: 'utility', description: '展示设备的系统信息，如 CPU、内存、操作系统版本等。' },
       { id: 'file-type-identifier', name: '文件类型识别器', category: 'utility', description: '通过文件内容识别文件格式，如 PDF、MP4 等。' },
-      { id: 'multi-language-calendar', name: '多语言日历查看器', category: 'utility', description: '显示不同国家和地区使用的日历格式，支持农历、公历等。' }
+      { id: 'multi-language-calendar', name: '多语言日历查看器', category: 'utility', description: '显示不同国家和地区使用的日历格式，支持农历、公历等。' },
+      { id: 'css-gradient-generator', name: 'CSS 渐变生成器', category: 'development', description: '可视化生成 CSS 渐变代码，支持线性渐变和径向渐变。' },
+      { id: 'flexbox-generator', name: 'Flexbox 布局生成器', category: 'development', description: '可视化生成 Flexbox 布局代码，支持实时预览。' },
+      { id: 'typing-speed-test', name: '打字速度测试', category: 'text', description: '测试打字速度（WPM）和准确率，支持多种难度级别。' },
+      { id: 'loan-calculator', name: '贷款计算器', category: 'math', description: '计算房贷、车贷等贷款还款金额，支持等额本息和等额本金两种还款方式。' }
     ],
     categories: [
       { id: 'security', name: '安全' },

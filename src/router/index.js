@@ -98,6 +98,10 @@ import ASCIIArtGenerator from '../tools/utility/ASCIIArtGenerator.vue'
 import SystemInfoViewer from '../tools/utility/SystemInfoViewer.vue'
 import FileTypeIdentifier from '../tools/utility/FileTypeIdentifier.vue'
 import MultiLanguageCalendar from '../tools/utility/MultiLanguageCalendar.vue'
+import CSSGradientGenerator from '../tools/development/CSSGradientGenerator.vue'
+import FlexboxGenerator from '../tools/development/FlexboxGenerator.vue'
+import TypingSpeedTest from '../tools/text/TypingSpeedTest.vue'
+import LoanCalculator from '../tools/math/LoanCalculator.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -197,7 +201,11 @@ const routes = [
   { path: '/tool/ascii-art-generator', name: 'ASCIIArtGenerator', component: ASCIIArtGenerator },
   { path: '/tool/system-info-viewer', name: 'SystemInfoViewer', component: SystemInfoViewer },
   { path: '/tool/file-type-identifier', name: 'FileTypeIdentifier', component: FileTypeIdentifier },
-  { path: '/tool/multi-language-calendar', name: 'MultiLanguageCalendar', component: MultiLanguageCalendar }
+  { path: '/tool/multi-language-calendar', name: 'MultiLanguageCalendar', component: MultiLanguageCalendar },
+  { path: '/tool/css-gradient-generator', name: 'CSSGradientGenerator', component: CSSGradientGenerator },
+  { path: '/tool/flexbox-generator', name: 'FlexboxGenerator', component: FlexboxGenerator },
+  { path: '/tool/typing-speed-test', name: 'TypingSpeedTest', component: TypingSpeedTest },
+  { path: '/tool/loan-calculator', name: 'LoanCalculator', component: LoanCalculator }
 ]
 
 const router = createRouter({
