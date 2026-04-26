@@ -1,15 +1,14 @@
 <template>
-  <div class="tool-container">
-    <h1 class="title">二维码生成器</h1>
-    <p class="description">生成二维码，支持自定义尺寸、颜色和纠错级别。</p>
+  <div class="qrcode-generator">
+    <h2>二维码生成器</h2>
+    <p class="subtitle">生成二维码，支持自定义尺寸、颜色和纠错级别</p>
 
-    <div class="main-content">
+    <div class="generator-container">
       <div class="input-section">
         <div class="form-group">
-          <label>内容：</label>
+          <label>内容</label>
           <textarea
             v-model="content"
-            class="text-input"
             placeholder="输入二维码内容（URL、文本、联系方式等）"
             @input="generateQR"
           ></textarea>
@@ -17,19 +16,18 @@
 
         <div class="form-row">
           <div class="form-group">
-            <label>尺寸 (px)：</label>
+            <label>尺寸 (px)</label>
             <input
               v-model.number="size"
               type="number"
               min="100"
               max="1000"
-              class="number-input"
-              @change="generateQR"
+              @input="generateQR"
             />
           </div>
           <div class="form-group">
-            <label>纠错级别：</label>
-            <select v-model="errorCorrectionLevel" class="select-input" @change="generateQR">
+            <label>纠错级别</label>
+            <select v-model="errorCorrectionLevel" @change="generateQR">
               <option value="L">低 (7%)</option>
               <option value="M">中 (15%)</option>
               <option value="Q">高 (25%)</option>
@@ -40,7 +38,7 @@
 
         <div class="form-row">
           <div class="form-group">
-            <label>前景色：</label>
+            <label>前景色</label>
             <div class="color-input-group">
               <input
                 v-model="fgColor"
@@ -58,7 +56,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label>背景色：</label>
+            <label>背景色</label>
             <div class="color-input-group">
               <input
                 v-model="bgColor"
@@ -78,30 +76,42 @@
         </div>
 
         <div class="form-group">
-          <label>Logo：</label>
+          <label>Logo (可选)</label>
           <input
             type="file"
             accept="image/*"
             @change="handleLogoUpload"
-            class="file-input"
           />
-          <button v-if="logoData" @click="removeLogo" class="btn-remove-logo">移除 Logo</button>
+          <div v-if="logoData" class="logo-preview">
+            <img :src="logoData" alt="Logo" />
+            <button @click="removeLogo" class="remove-btn">移除</button>
+          </div>
         </div>
 
-        <div class="action-buttons">
-          <button @click="generateQR" class="btn-primary">生成二维码</button>
-          <button @click="downloadQR" class="btn-secondary" :disabled="!qrDataUrl">下载二维码</button>
-        </div>
+        <button @click="generateQR" class="generate-btn">生成二维码</button>
       </div>
 
       <div class="preview-section">
+        <h3>预览</h3>
         <div class="preview-container" :style="{ backgroundColor: bgColor }">
-          <canvas ref="qrCanvas" class="qr-canvas"></canvas>
-          <img v-if="qrDataUrl" :src="qrDataUrl" class="qr-image" />
+          <canvas ref="qrCanvas"></canvas>
         </div>
-        <div class="preview-info">
-          <span v-if="content">内容: {{ content.substring(0, 50) }}{{ content.length > 50 ? '...' : '' }}</span>
-          <span v-else>请输入内容生成二维码</span>
+
+        <div class="preview-info" v-if="content">
+          <p>内容: {{ content.substring(0, 50) }}{{ content.length > 50 ? '...' : '' }}</p>
+          <p class="qr-version">版本: {{ qrVersion }}</p>
+        </div>
+
+        <div class="action-buttons">
+          <button @click="downloadQR('png')" class="action-btn primary" :disabled="!content">
+            下载 PNG
+          </button>
+          <button @click="downloadQR('svg')" class="action-btn" :disabled="!content">
+            下载 SVG
+          </button>
+          <button @click="copyToClipboard" class="action-btn" :disabled="!content">
+            {{ copied ? '已复制!' : '复制图片' }}
+          </button>
         </div>
       </div>
     </div>
@@ -109,7 +119,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
+import QRCode from 'qrcode'
 
 const content = ref('')
 const size = ref(256)
@@ -117,157 +128,58 @@ const errorCorrectionLevel = ref('M')
 const fgColor = ref('#000000')
 const bgColor = ref('#ffffff')
 const logoData = ref(null)
-const qrDataUrl = ref('')
 const qrCanvas = ref(null)
+const copied = ref(false)
+const qrVersion = ref('-')
 
-function generateQR() {
-  if (!content.value) {
-    qrDataUrl.value = ''
+const generateQR = async () => {
+  if (!content.value || !qrCanvas.value) {
     return
   }
 
-  const qr = generateQRCode(content.value, {
-    width: size.value,
-    height: size.value,
-    colorDark: fgColor.value,
-    colorLight: bgColor.value,
-    errorCorrectionLevel: errorCorrectionLevel.value
-  })
-
-  if (qr) {
-    qrDataUrl.value = qr
-  }
-}
-
-function generateQRCode(text, options) {
-  const canvas = document.createElement('canvas')
-  const ctx = canvas.getContext('2d')
-
-  canvas.width = options.width
-  canvas.height = options.height
-
-  ctx.fillStyle = options.colorLight
-  ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-  const moduleCount = getQRMatrix(text).length
-  const moduleSize = Math.floor(options.width / moduleCount)
-  const offset = Math.floor((options.width - moduleSize * moduleCount) / 2)
-
-  ctx.fillStyle = options.colorDark
-
-  const matrix = getQRMatrix(text)
-  for (let row = 0; row < matrix.length; row++) {
-    for (let col = 0; col < matrix[row].length; col++) {
-      if (matrix[row][col]) {
-        ctx.fillRect(
-          offset + col * moduleSize,
-          offset + row * moduleSize,
-          moduleSize,
-          moduleSize
-        )
-      }
+  try {
+    const options = {
+      width: size.value,
+      height: size.value,
+      color: {
+        dark: fgColor.value,
+        light: bgColor.value
+      },
+      errorCorrectionLevel: errorCorrectionLevel.value,
+      margin: 2,
+      version: 10
     }
-  }
 
-  if (logoData.value) {
-    const logoSize = options.width * 0.2
-    const logoX = (options.width - logoSize) / 2
-    const logoY = (options.height - logoSize) / 2
+    await QRCode.toCanvas(qrCanvas.value, content.value, options)
 
-    ctx.fillStyle = options.colorLight
-    ctx.fillRect(logoX - 5, logoY - 5, logoSize + 10, logoSize + 10)
+    if (logoData.value) {
+      const ctx = qrCanvas.value.getContext('2d')
+      const logoSize = size.value * 0.2
+      const logoX = (size.value - logoSize) / 2
+      const logoY = (size.value - logoSize) / 2
 
-    const img = new Image()
-    img.src = logoData.value
-    ctx.drawImage(img, logoX, logoY, logoSize, logoSize)
-  }
+      ctx.fillStyle = bgColor.value
+      ctx.fillRect(logoX - 5, logoY - 5, logoSize + 10, logoSize + 10)
 
-  return canvas.toDataURL('image/png')
-}
-
-function getQRMatrix(text) {
-  const size = Math.max(21, Math.ceil(text.length / 2) + 21)
-  const matrix = Array(size).fill(null).map(() => Array(size).fill(false))
-
-  const center = Math.floor(size / 2)
-
-  for (let i = 0; i < text.length; i++) {
-    const char = text.charCodeAt(i)
-    const row = Math.floor(i / size) % size
-    const col = i % size
-
-    for (let bit = 0; bit < 8; bit++) {
-      const r = (row + bit) % size
-      const c = (col + Math.floor(bit / 4)) % size
-      matrix[r][c] = (char & (1 << bit)) !== 0
+      const img = new Image()
+      img.src = logoData.value
+      await new Promise((resolve) => {
+        img.onload = resolve
+      })
+      ctx.drawImage(img, logoX, logoY, logoSize, logoSize)
     }
-  }
 
-  addFinderPatterns(matrix)
-  addTimingPatterns(matrix)
-  addAlignmentPatterns(matrix, center)
+    const estimatedVersion = QRCode.__proto__.generate
+      ? '自动'
+      : Math.ceil(content.value.length / 40) + 1
+    qrVersion.value = estimatedVersion <= 40 ? estimatedVersion : '40+'
 
-  return matrix
-}
-
-function addFinderPatterns(matrix) {
-  const pattern = [
-    [1,1,1,1,1,1,1],
-    [1,0,0,0,0,0,1],
-    [1,0,1,1,1,0,1],
-    [1,0,1,1,1,0,1],
-    [1,0,1,1,1,0,1],
-    [1,0,0,0,0,0,1],
-    [1,1,1,1,1,1,1]
-  ]
-
-  const positions = [
-    [0, 0],
-    [0, matrix.length - 7],
-    [matrix.length - 7, 0]
-  ]
-
-  positions.forEach(([startRow, startCol]) => {
-    for (let r = 0; r < 7; r++) {
-      for (let c = 0; c < 7; c++) {
-        if (pattern[r][c]) {
-          matrix[startRow + r][startCol + c] = true
-        }
-      }
-    }
-  })
-}
-
-function addTimingPatterns(matrix) {
-  for (let i = 8; i < matrix.length - 8; i++) {
-    matrix[6][i] = i % 2 === 0
-    matrix[i][6] = i % 2 === 0
+  } catch (error) {
+    console.error('生成二维码失败:', error)
   }
 }
 
-function addAlignmentPatterns(matrix, center) {
-  if (matrix.length < 25) return
-
-  const positions = [center - 2, center, center + 2]
-
-  positions.forEach(row => {
-    positions.forEach(col => {
-      if (row < 9 && col < 9) return
-      if (row < 9 && col > matrix.length - 10) return
-      if (row > matrix.length - 10 && col < 9) return
-
-      for (let r = -2; r <= 2; r++) {
-        for (let c = -2; c <= 2; c++) {
-          if (Math.abs(r) === 2 || Math.abs(c) === 2 || (r === 0 && c === 0)) {
-            matrix[row + r][col + c] = true
-          }
-        }
-      }
-    })
-  })
-}
-
-function handleLogoUpload(event) {
+const handleLogoUpload = (event) => {
   const file = event.target.files[0]
   if (file) {
     const reader = new FileReader()
@@ -279,243 +191,228 @@ function handleLogoUpload(event) {
   }
 }
 
-function removeLogo() {
+const removeLogo = () => {
   logoData.value = null
   generateQR()
 }
 
-function downloadQR() {
-  if (!qrDataUrl.value) return
+const downloadQR = async (format) => {
+  if (!content.value) return
 
-  const link = document.createElement('a')
-  link.download = 'qrcode.png'
-  link.href = qrDataUrl.value
-  link.click()
+  try {
+    if (format === 'svg') {
+      const svgString = await QRCode.toString(content.value, {
+        type: 'svg',
+        width: size.value,
+        color: {
+          dark: fgColor.value,
+          light: bgColor.value
+        },
+        errorCorrectionLevel: errorCorrectionLevel.value
+      })
+
+      const blob = new Blob([svgString], { type: 'image/svg+xml' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `qrcode-${Date.now()}.svg`
+      a.click()
+      URL.revokeObjectURL(url)
+    } else {
+      const dataUrl = qrCanvas.value.toDataURL('image/png')
+      const a = document.createElement('a')
+      a.href = dataUrl
+      a.download = `qrcode-${Date.now()}.png`
+      a.click()
+    }
+  } catch (error) {
+    console.error('下载失败:', error)
+  }
+}
+
+const copyToClipboard = async () => {
+  if (!qrCanvas.value) return
+
+  try {
+    const blob = await new Promise(resolve => qrCanvas.value.toBlob(resolve))
+    await navigator.clipboard.write([
+      new ClipboardItem({ 'image/png': blob })
+    ])
+    copied.value = true
+    setTimeout(() => { copied.value = false }, 2000)
+  } catch (error) {
+    console.error('复制失败:', error)
+  }
 }
 
 onMounted(() => {
-  generateQR()
+  if (content.value) {
+    generateQR()
+  }
 })
 </script>
 
 <style scoped>
-.tool-container {
-  padding: 2rem;
-  max-width: 1000px;
-  margin: 0 auto;
+.qrcode-generator {
+  padding: 20px;
 }
-
-.title {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
+.subtitle {
+  color: var(--text-secondary);
+  margin-top: 0;
+  margin-bottom: 20px;
 }
-
-.description {
-  color: #666;
-  margin-bottom: 2rem;
-}
-
-.main-content {
+.generator-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 20px;
 }
-
-.input-section {
-  background: #f5f5f5;
-  border-radius: 12px;
-  padding: 1.5rem;
+.input-section,
+.preview-section {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 8px;
 }
-
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 15px;
 }
-
-.form-group > label {
+.form-group label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
   font-weight: 500;
 }
-
-.text-input {
+.form-group textarea {
   width: 100%;
   min-height: 100px;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
   resize: vertical;
-  font-size: 0.95rem;
-  box-sizing: border-box;
 }
-
 .form-row {
-  display: flex;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
 }
-
-.form-row .form-group {
-  flex: 1;
-}
-
-.number-input,
-.select-input {
+.form-group input[type="number"],
+.form-group select {
   width: 100%;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 0.95rem;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
 }
-
 .color-input-group {
   display: flex;
-  gap: 0.5rem;
+  gap: 10px;
   align-items: center;
 }
-
 .color-input {
-  width: 40px;
+  width: 50px;
   height: 40px;
-  border: none;
-  border-radius: 6px;
+  padding: 2px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
   cursor: pointer;
 }
-
 .color-text {
   flex: 1;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  padding: 8px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
   font-family: monospace;
-  font-size: 0.95rem;
 }
-
-.file-input {
+.form-group input[type="file"] {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px dashed #ddd;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  padding: 8px;
+  border: 1px dashed var(--border-color);
+  border-radius: 4px;
 }
-
-.btn-remove-logo {
-  margin-top: 0.5rem;
-  padding: 0.35rem 0.75rem;
-  font-size: 0.85rem;
+.logo-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.logo-preview img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+.remove-btn {
+  padding: 5px 10px;
+  background: #fee2e2;
   border: none;
   border-radius: 4px;
-  background: #fee2e2;
   color: #991b1b;
   cursor: pointer;
 }
-
-.action-buttons {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.btn-primary,
-.btn-secondary {
-  flex: 1;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.2s;
-}
-
-.btn-primary {
-  background: #2563eb;
+.generate-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--primary-color);
   color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
 }
-
-.btn-primary:hover {
-  background: #1d4ed8;
+.generate-btn:hover {
+  opacity: 0.9;
 }
-
-.btn-secondary {
-  background: #e5e5e5;
-  color: #333;
+.preview-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
 }
-
-.btn-secondary:hover:not(:disabled) {
-  background: #d4d4d4;
-}
-
-.btn-secondary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.preview-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .preview-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-  border-radius: 12px;
+  padding: 20px;
+  border-radius: 8px;
   min-height: 300px;
 }
-
-.qr-canvas {
-  display: none;
-}
-
-.qr-image {
+.preview-container canvas {
   max-width: 100%;
   height: auto;
 }
-
 .preview-info {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: #666;
+  margin-top: 15px;
   text-align: center;
-  word-break: break-all;
+  font-size: 14px;
+  color: var(--text-secondary);
 }
-
-.dark .tool-container {
-  color: #e5e5e5;
+.preview-info p {
+  margin: 5px 0;
 }
-
-.dark .description {
-  color: #a3a3a3;
+.qr-version {
+  color: var(--primary-color);
 }
-
-.dark .input-section {
-  background: #262626;
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
 }
-
-.dark .text-input,
-.dark .number-input,
-.dark .select-input,
-.dark .color-text {
-  background: #1a1a1a;
-  color: #e5e5e5;
-  border-color: #404040;
+.action-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
 }
-
-.dark .btn-secondary {
-  background: #404040;
-  color: #e5e5e5;
+.action-btn.primary {
+  background: var(--primary-color);
+  color: white;
+  border: none;
 }
-
-.dark .btn-secondary:hover:not(:disabled) {
-  background: #525252;
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
-
-.dark .preview-info {
-  color: #a3a3a3;
-}
-
 @media (max-width: 768px) {
-  .main-content {
+  .generator-container {
     grid-template-columns: 1fr;
   }
 }
