@@ -9,13 +9,22 @@
     <div class="bg-white dark:bg-dark-card rounded-lg p-6 shadow-md">
       <div class="mb-6">
         <label class="block text-gray-700 dark:text-gray-300 mb-2">输入密码</label>
-        <input 
-          v-model="password"
-          type="password"
-          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-card text-gray-800 dark:text-dark-text"
-          placeholder="输入密码进行检测..."
-          @input="checkStrength"
-        >
+        <div class="password-input-wrapper">
+          <input
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-card text-gray-800 dark:text-dark-text pr-12"
+            placeholder="输入密码进行检测..."
+            @input="checkStrength"
+          >
+          <button
+            type="button"
+            class="toggle-visibility-btn"
+            @click="showPassword = !showPassword"
+          >
+            {{ showPassword ? '🙈' : '👁️' }}
+          </button>
+        </div>
       </div>
       
       <div class="mb-6">
@@ -114,6 +123,7 @@ export default {
   name: 'PasswordStrengthChecker',
   setup() {
     const password = ref('')
+    const showPassword = ref(false)
     
     const requirements = computed(() => [
       { text: '至少 8 个字符', met: password.value.length >= 8 },
@@ -226,6 +236,7 @@ export default {
     
     return {
       password,
+      showPassword,
       requirements,
       charTypesCount,
       uniqueCharsCount,
@@ -242,3 +253,20 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.password-input-wrapper {
+  position: relative;
+}
+.toggle-visibility-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+}
+</style>
