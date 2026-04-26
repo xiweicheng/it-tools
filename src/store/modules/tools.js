@@ -102,7 +102,11 @@ export const useToolsStore = defineStore('tools', {
       { id: 'css-gradient-generator', name: 'CSS 渐变生成器', category: 'development', description: '可视化生成 CSS 渐变代码，支持线性渐变和径向渐变。' },
       { id: 'flexbox-generator', name: 'Flexbox 布局生成器', category: 'development', description: '可视化生成 Flexbox 布局代码，支持实时预览。' },
       { id: 'typing-speed-test', name: '打字速度测试', category: 'text', description: '测试打字速度（WPM）和准确率，支持多种难度级别。' },
-      { id: 'loan-calculator', name: '贷款计算器', category: 'math', description: '计算房贷、车贷等贷款还款金额，支持等额本息和等额本金两种还款方式。' }
+      { id: 'loan-calculator', name: '贷款计算器', category: 'math', description: '计算房贷、车贷等贷款还款金额，支持等额本息和等额本金两种还款方式。' },
+      { id: 'box-shadow-generator', name: '盒阴影生成器', category: 'development', description: '可视化生成 CSS box-shadow 代码，支持多种阴影效果。' },
+      { id: 'cron-interpreter', name: 'Cron 表达式解释器', category: 'development', description: '将 Cron 表达式转为人类可读描述，并验证表达式是否正确。' },
+      { id: 'percentage-calculator', name: '百分比计算器', category: 'math', description: '计算百分比、增长率、折扣等实用的百分比计算。' },
+      { id: 'bmi-calculator', name: 'BMI 计算器', category: 'math', description: '计算身体质量指数 (BMI)，评估体重是否健康。' }
     ],
     categories: [
       { id: 'security', name: '安全' },

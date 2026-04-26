@@ -102,6 +102,10 @@ import CSSGradientGenerator from '../tools/development/CSSGradientGenerator.vue'
 import FlexboxGenerator from '../tools/development/FlexboxGenerator.vue'
 import TypingSpeedTest from '../tools/text/TypingSpeedTest.vue'
 import LoanCalculator from '../tools/math/LoanCalculator.vue'
+import BoxShadowGenerator from '../tools/development/BoxShadowGenerator.vue'
+import CronInterpreter from '../tools/development/CronInterpreter.vue'
+import PercentageCalculator from '../tools/math/PercentageCalculator.vue'
+import BMICalculator from '../tools/math/BMICalculator.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -205,7 +209,11 @@ const routes = [
   { path: '/tool/css-gradient-generator', name: 'CSSGradientGenerator', component: CSSGradientGenerator },
   { path: '/tool/flexbox-generator', name: 'FlexboxGenerator', component: FlexboxGenerator },
   { path: '/tool/typing-speed-test', name: 'TypingSpeedTest', component: TypingSpeedTest },
-  { path: '/tool/loan-calculator', name: 'LoanCalculator', component: LoanCalculator }
+  { path: '/tool/loan-calculator', name: 'LoanCalculator', component: LoanCalculator },
+  { path: '/tool/box-shadow-generator', name: 'BoxShadowGenerator', component: BoxShadowGenerator },
+  { path: '/tool/cron-interpreter', name: 'CronInterpreter', component: CronInterpreter },
+  { path: '/tool/percentage-calculator', name: 'PercentageCalculator', component: PercentageCalculator },
+  { path: '/tool/bmi-calculator', name: 'BMICalculator', component: BMICalculator }
 ]
 
 const router = createRouter({
