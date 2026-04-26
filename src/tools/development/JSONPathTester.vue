@@ -112,6 +112,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { JSONPath } from 'jsonpath-plus'
 
 const inputJson = ref('')
 const jsonPath = ref('')
@@ -181,166 +182,11 @@ function evaluatePath() {
 }
 
 function jsonPathQuery(obj, path) {
-  path = path.trim()
+  const result = JSONPath({ path, json: obj })
 
-  if (path.startsWith('$')) {
-    path = path.substring(1)
-  }
-
-  if (!path) return obj
-
-  const parts = parsePath(path)
-  let current = [obj]
-
-  for (const part of parts) {
-    if (part.type === 'root') {
-      current = [obj]
-    } else if (part.type === 'child') {
-      const next = []
-      for (const item of current) {
-        if (item && typeof item === 'object' && !Array.isArray(item)) {
-          if (part.name in item) {
-            next.push(item[part.name])
-          }
-        }
-      }
-      current = next
-    } else if (part.type === 'recursive') {
-      const next = []
-      const search = (o) => {
-        if (o && typeof o === 'object') {
-          for (const key in o) {
-            if (o.hasOwnProperty(key)) {
-              if (key === part.name) {
-                next.push(o[key])
-              }
-              search(o[key])
-            }
-          }
-        }
-      }
-      for (const item of current) {
-        search(item)
-      }
-      current = next
-    } else if (part.type === 'wildcard') {
-      const next = []
-      for (const item of current) {
-        if (Array.isArray(item)) {
-          next.push(...item)
-        } else if (item && typeof item === 'object') {
-          next.push(...Object.values(item))
-        }
-      }
-      current = next
-    } else if (part.type === 'index') {
-      const next = []
-      for (const item of current) {
-        if (Array.isArray(item) && part.index < item.length) {
-          next.push(item[part.index])
-        }
-      }
-      current = next
-    } else if (part.type === 'filter') {
-      const next = []
-      for (const item of current) {
-        if (Array.isArray(item)) {
-          const filtered = item.filter(part.filter)
-          next.push(...filtered)
-        }
-      }
-      current = next
-    }
-  }
-
-  if (current.length === 0) return null
-  if (current.length === 1) return current[0]
-  return current
-}
-
-function parsePath(path) {
-  const parts = []
-  let i = 0
-
-  while (i < path.length) {
-    if (path[i] === '.') {
-      if (path[i + 1] === '.') {
-        i += 2
-        let name = ''
-        while (i < path.length && /[a-zA-Z0-9_]/.test(path[i])) {
-          name += path[i++]
-        }
-        if (name) {
-          parts.push({ type: 'recursive', name })
-        }
-      } else {
-        i++
-        let name = ''
-        while (i < path.length && /[a-zA-Z0-9_]/.test(path[i])) {
-          name += path[i++]
-        }
-        if (name) {
-          parts.push({ type: 'child', name })
-        }
-      }
-    } else if (path[i] === '[') {
-      i++
-      if (path[i] === '*') {
-        i++
-        if (path[i] === ']') i++
-        parts.push({ type: 'wildcard' })
-      } else if (path[i] === '?') {
-        i++
-        const filterStr = path.match(/\?\([^)]+\)/)?.[0] || ''
-        if (filterStr) {
-          i += filterStr.length
-          const match = filterStr.match(/@\.(\w+)([<>=]+)(.+)/)
-          if (match) {
-            const [, key, op, val] = match
-            parts.push({
-              type: 'filter',
-              filter: (item) => {
-                const itemVal = item[key]
-                const compareVal = isNaN(Number(val)) ? val.replace(/['"]/g, '') : Number(val)
-                switch (op) {
-                  case '<': return itemVal < compareVal
-                  case '<=': return itemVal <= compareVal
-                  case '>': return itemVal > compareVal
-                  case '>=': return itemVal >= compareVal
-                  case '==': return itemVal == compareVal
-                  case '===': return itemVal === compareVal
-                  default: return false
-                }
-              }
-            })
-          }
-        }
-      } else if (/[0-9]/.test(path[i])) {
-        let num = ''
-        while (i < path.length && /[0-9]/.test(path[i])) {
-          num += path[i++]
-        }
-        parts.push({ type: 'index', index: parseInt(num) })
-        if (path[i] === ']') i++
-      }
-    } else if (path[i] === "'" || path[i] === '"') {
-      const quote = path[i++]
-      let name = ''
-      while (i < path.length && path[i] !== quote) {
-        name += path[i++]
-      }
-      i++
-      parts.push({ type: 'child', name })
-      if (path[i] === ']') i++
-    } else if (path[i] === '$') {
-      parts.push({ type: 'root' })
-      i++
-    } else {
-      i++
-    }
-  }
-
-  return parts
+  if (result.length === 0) return null
+  if (result.length === 1) return result[0]
+  return result
 }
 
 function loadExample() {

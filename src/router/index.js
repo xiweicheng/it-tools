@@ -114,6 +114,22 @@ import HTMLTableGenerator from '../tools/development/HTMLTableGenerator.vue'
 import WateringCalculator from '../tools/math/WateringCalculator.vue'
 import FractionCalculator from '../tools/math/FractionCalculator.vue'
 import WordCountTool from '../tools/text/WordCountTool.vue'
+import CSSGridGenerator from '../tools/development/CSSGridGenerator.vue'
+import SVGPreview from '../tools/development/SVGPreview.vue'
+import FaviconGenerator from '../tools/development/FaviconGenerator.vue'
+import MorseCodeTranslator from '../tools/text/MorseCodeTranslator.vue'
+import SlugGenerator from '../tools/text/SlugGenerator.vue'
+import RandomSentenceGenerator from '../tools/text/RandomSentenceGenerator.vue'
+import AgeCalculator from '../tools/math/AgeCalculator.vue'
+import CompoundInterestCalculator from '../tools/math/CompoundInterestCalculator.vue'
+import PingTester from '../tools/network/PingTester.vue'
+import HttpHeadersViewer from '../tools/development/HttpHeadersViewer.vue'
+import RomanNumeralConverter from '../tools/conversion/RomanNumeralConverter.vue'
+import JsonToTypeScript from '../tools/development/JsonToTypeScript.vue'
+import EmojiPicker from '../tools/text/EmojiPicker.vue'
+import ProbabilityCalculator from '../tools/math/ProbabilityCalculator.vue'
+import UnitPriceCalculator from '../tools/math/UnitPriceCalculator.vue'
+import DuplicateWordRemover from '../tools/text/DuplicateWordRemover.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -229,7 +245,23 @@ const routes = [
   { path: '/tool/html-table-generator', name: 'HTMLTableGenerator', component: HTMLTableGenerator },
   { path: '/tool/watering-calculator', name: 'WateringCalculator', component: WateringCalculator },
   { path: '/tool/fraction-calculator', name: 'FractionCalculator', component: FractionCalculator },
-  { path: '/tool/word-count-tool', name: 'WordCountTool', component: WordCountTool }
+  { path: '/tool/word-count-tool', name: 'WordCountTool', component: WordCountTool },
+  { path: '/tool/css-grid-generator', name: 'CSSGridGenerator', component: CSSGridGenerator },
+  { path: '/tool/svg-preview', name: 'SVGPreview', component: SVGPreview },
+  { path: '/tool/favicon-generator', name: 'FaviconGenerator', component: FaviconGenerator },
+  { path: '/tool/morse-code-translator', name: 'MorseCodeTranslator', component: MorseCodeTranslator },
+  { path: '/tool/slug-generator', name: 'SlugGenerator', component: SlugGenerator },
+  { path: '/tool/random-sentence-generator', name: 'RandomSentenceGenerator', component: RandomSentenceGenerator },
+  { path: '/tool/age-calculator', name: 'AgeCalculator', component: AgeCalculator },
+  { path: '/tool/compound-interest-calculator', name: 'CompoundInterestCalculator', component: CompoundInterestCalculator },
+  { path: '/tool/ping-tester', name: 'PingTester', component: PingTester },
+  { path: '/tool/http-headers-viewer', name: 'HttpHeadersViewer', component: HttpHeadersViewer },
+  { path: '/tool/roman-numeral-converter', name: 'RomanNumeralConverter', component: RomanNumeralConverter },
+  { path: '/tool/json-to-typescript', name: 'JsonToTypeScript', component: JsonToTypeScript },
+  { path: '/tool/emoji-picker', name: 'EmojiPicker', component: EmojiPicker },
+  { path: '/tool/probability-calculator', name: 'ProbabilityCalculator', component: ProbabilityCalculator },
+  { path: '/tool/unit-price-calculator', name: 'UnitPriceCalculator', component: UnitPriceCalculator },
+  { path: '/tool/duplicate-word-remover', name: 'DuplicateWordRemover', component: DuplicateWordRemover }
 ]
 
 const router = createRouter({
