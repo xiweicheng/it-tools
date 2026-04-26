@@ -65,6 +65,9 @@ import LoremIpsumGenerator from '../tools/utility/LoremIpsumGenerator.vue'
 import APIDocGenerator from '../tools/development/APIDocGenerator.vue'
 import DNSLookup from '../tools/network/DNSLookup.vue'
 import ProgressBarGenerator from '../tools/development/ProgressBarGenerator.vue'
+import UUIDFormatter from '../tools/development/UUIDFormatter.vue'
+import RegexGenerator from '../tools/development/RegexGenerator.vue'
+import ColorPaletteGenerator from '../tools/development/ColorPaletteGenerator.vue'
 
 const routes = [
   {
@@ -396,6 +399,21 @@ const routes = [
     path: '/tool/progress-bar-generator',
     name: 'ProgressBarGenerator',
     component: ProgressBarGenerator
+  },
+  {
+    path: '/tool/uuid-formatter',
+    name: 'UUIDFormatter',
+    component: UUIDFormatter
+  },
+  {
+    path: '/tool/regex-generator',
+    name: 'RegexGenerator',
+    component: RegexGenerator
+  },
+  {
+    path: '/tool/color-palette-generator',
+    name: 'ColorPaletteGenerator',
+    component: ColorPaletteGenerator
   }
 ]
 
